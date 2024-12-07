@@ -10,6 +10,7 @@ instructions = []
 final_order = []
 out_of_order = []
 count = 0
+count2 = 0
 
 def check_order(current_instruction):
     for index, t in enumerate(current_instruction):
@@ -54,24 +55,29 @@ for x in instructions:
             count += midnum
 
 def jonPlan(current):
-    for x, index in enumerate(current):
-        print(x)
-        print(index)
-            
+    global count2
+    G = nx.DiGraph()
+
+    for rule in rules2:
+        G.add_edge(rule[0], rule[1])
+    
+    subgraph = G.subgraph(current)
+    if nx.is_directed_acyclic_graph(subgraph):
+        sorted_items = list(nx.topological_sort(subgraph))
 
 
-G = nx.DiGraph()
+    
+    
 
-G.add_edges_from(rules2)
-
-if nx.is_directed_acyclic_graph(G):
-    sorted_items = list(nx.topological_sort(G))
-
-    print(sorted_items)
+    
+    midpt = len(sorted_items) // 2
+    midnum = int(sorted_items[midpt])
+    count2 += midnum
 
 print(f"Part 1 middle nums added = {count}")
 
 for x in out_of_order:
     jonPlan(x)
-        
-    
+
+      
+print(f"Part 2 middle nums added = {count2}")   
